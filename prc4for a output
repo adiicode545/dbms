@@ -1,0 +1,57 @@
+create table library1(roll_no number(5),name varchar2(10),date_of_issue date,name_of_book varchar2(10),status varchar2(10));
+
+insert into library1 values(1,'Pinku','22-sep-2025','java','returned');
+
+insert into library1 values(2,'Chinku','23-sep-2025','c++','noreturn');
+
+insert into library1 values(2,'Chinku','23-sep-2025','c++','noreturn');
+
+ insert into library1 values(3,'Minku','24-sep-2025','ads','return');
+
+ insert into library1 values(4,'Alisha','25-sep-2025','mp','noreturn');
+
+select * from library1;
+
+create table fine3(roll_no number(10),date_of_return date,amount number(10));
+
+
+insert into fine3 values(1,'25-oct-25',50);
+
+insert into fine3 values(1,'26-oct-25',70);
+
+
+select * from fine3;
+
+declare
+   rno number(3):=&roll_no; 
+  bname varchar2(10):='&name_of_book'; 
+   no_day number(10); 
+   issue_date date; 
+   fine3amt number(5):=0; 
+  begin 
+   select date_of_issue into issue_date from library1 where roll_no=rno; 
+    select sysdate-to_date(issue_date)days into no_day from dual; 
+  if(no_day>=15 and no_day<=30)then 
+  fine3amt:=no_day*5; 
+   elsif no_day>30 then 
+ fine3amt:=no_day*50; 
+ end if; 
+  update library1 set status='return' where roll_no=rno; 
+   if fine3amt>0 then 
+  insert into fine3 values(rno,sysdate,fine3amt); 
+  end if; 
+  EXCEPTION 
+  WHEN no_data_found THEN 
+   dbms_output.put_line('record not found'); 
+   end; 
+  /
+
+Enter value for roll_no: 3
+old   2:    rno number(3):=&roll_no;
+new   2:    rno number(3):=3;
+Enter value for name_of_book: ads
+old   3:   bname varchar2(10):='&name_of_book';
+new   3:   bname varchar2(10):='ads';
+
+select *from fine3;
+select * from library1;
