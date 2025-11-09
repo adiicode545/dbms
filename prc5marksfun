@@ -1,0 +1,62 @@
+
+//create table
+CREATE TABLE studmarks(
+  name VARCHAR2(20),
+  total_marks NUMBER(5)
+);
+
+CREATE TABLE result(
+  roll_no NUMBER(10),
+  name VARCHAR2(20),
+  class VARCHAR2(30)
+);
+
+//create stored procedure
+CREATE OR REPLACE PROCEDURE proc_grade(
+  rno   NUMBER,
+  name  VARCHAR2,
+  marks NUMBER
+)
+IS
+  v_class VARCHAR2(30);
+BEGIN
+  -- Categorize students based on marks
+  IF marks <= 1500 AND marks >= 990 THEN
+    v_class := 'Distinction';
+  ELSIF marks <= 989 AND marks >= 900 THEN
+    v_class := 'First Class';
+  ELSIF marks <= 899 AND marks >= 825 THEN
+    v_class := 'Higher Second Class';
+  ELSE
+    v_class := 'Fail';
+  END IF;
+
+  -- Insert data into both tables
+  INSERT INTO studmarks VALUES(name, marks);
+  INSERT INTO result VALUES(rno, name, v_class);
+END;
+/
+
+//Execute procedure
+
+CALL proc_grade(1, 'Charlie', 1000);
+CALL proc_grade(2, 'Tonny',   2000);
+CALL proc_grade(3, 'Bob',      970);
+CALL proc_grade(4, 'Riya',     880);
+CALL proc_grade(5, 'Neha',     820);
+
+//view results
+SELECT * FROM studmarks;
+SELECT * FROM result;
+
+
+
+
+
+
+
+
+
+
+
+
