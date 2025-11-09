@@ -1,0 +1,53 @@
+CREATE TABLE old_book (
+    id NUMBER(5),
+    name VARCHAR2(20)
+);
+
+INSERT INTO old_book VALUES (101, 'TOC');
+INSERT INTO old_book VALUES (102, 'PPL');
+
+CREATE TABLE new_book (
+    id NUMBER(5),
+    name VARCHAR2(20)
+);
+
+INSERT INTO new_book VALUES (103, 'M3');
+INSERT INTO new_book VALUES (101, 'TOC');
+
+COMMIT;
+#
+SELECT * FROM old_book;
+SELECT * FROM new_book;
+#
+SET SERVEROUTPUT ON;
+#
+DECLARE
+    CURSOR c_oldbook(p_id NUMBER) IS
+        SELECT id, name FROM old_book WHERE id = p_id;
+
+    v_id old_book.id%TYPE;
+    v_name old_book.name%TYPE;
+    v_count NUMBER;
+BEGIN
+    FOR rec IN (SELECT * FROM old_book) LOOP
+        SELECT COUNT(*) INTO v_count 
+        FROM new_book 
+        WHERE id = rec.id;
+
+        IF v_count = 0 THEN
+            INSERT INTO new_book VALUES (rec.id, rec.name);
+            DBMS_OUTPUT.PUT_LINE('Inserted ID: ' || rec.id || ' - ' || rec.name);
+        ELSE
+            DBMS_OUTPUT.PUT_LINE('Skipped ID (Already Exists): ' || rec.id);
+        END IF;
+    END LOOP;
+
+    DBMS_OUTPUT.PUT_LINE('Merge operation completed.');
+END;
+/
+#
+Inserted ID: 102 - PPL
+Skipped ID (Already Exists): 101
+Merge operation completed.
+#
+SELECT * FROM new_book;
