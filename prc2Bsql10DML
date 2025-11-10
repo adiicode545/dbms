@@ -1,0 +1,93 @@
+-- ================================================
+-- DATABASE SELECTION
+-- ================================================
+USE office_db;
+
+-- ================================================
+-- TABLE CREATION
+-- ================================================
+CREATE TABLE employees (
+    emp_id INT AUTO_INCREMENT PRIMARY KEY,
+    emp_name VARCHAR(255),
+    email VARCHAR(255),
+    dept_id INT NOT NULL
+);
+
+CREATE TABLE departments (
+    dept_id INT AUTO_INCREMENT PRIMARY KEY,
+    dept_name VARCHAR(255)
+);
+
+-- ================================================
+-- INSERTING DATA INTO EMPLOYEES TABLE
+-- ================================================
+INSERT INTO employees (emp_name, email, dept_id) VALUES ('Siddhant', 'abc@gmail.com', 4);
+INSERT INTO employees (emp_name, email, dept_id) VALUES ('Atharva', 'xyz@gmail.com', 2);
+INSERT INTO employees (emp_name, email, dept_id) VALUES ('Krushna', 'mno@gmail.com', 3);
+INSERT INTO employees (emp_name, email, dept_id) VALUES ('Nilesh', 'pqr@gmail.com', 2);
+INSERT INTO employees (emp_name, email, dept_id) VALUES ('Prathmesh', 'kjz@gmail.com', 1);
+
+-- ================================================
+-- INSERTING DATA INTO DEPARTMENTS TABLE
+-- ================================================
+INSERT INTO departments (dept_name) VALUES ('FrontEnd Developer');
+INSERT INTO departments (dept_name) VALUES ('Backend Developer');
+INSERT INTO departments (dept_name) VALUES ('Project Manager');
+INSERT INTO departments (dept_name) VALUES ('IT Consultancy');
+INSERT INTO departments (dept_name) VALUES ('FullStack Developer');
+
+-- ================================================
+-- UPDATING DATA IN EMPLOYEES TABLE
+-- ================================================
+UPDATE employees SET dept_id = 5 WHERE emp_id = 1;
+
+-- ================================================
+-- MODIFYING TABLE STRUCTURE
+-- ================================================
+ALTER TABLE employees ADD salary DECIMAL(10, 2);
+
+-- ================================================
+-- UPDATING SALARIES FOR EMPLOYEES
+-- ================================================
+UPDATE employees SET salary = 90000 WHERE emp_id = 1;
+UPDATE employees SET salary = 60000 WHERE emp_id = 2;
+UPDATE employees SET salary = 70000 WHERE emp_id = 3;
+UPDATE employees SET salary = 30000 WHERE emp_id = 4;
+UPDATE employees SET salary = 40000 WHERE emp_id = 5;
+UPDATE employees SET salary = 20000 WHERE emp_id = 6;
+
+-- ================================================
+-- ADDING NEW EMPLOYEE
+-- ================================================
+INSERT INTO employees (emp_name, email, dept_id) VALUES ('Kartik', 'str@gmail.com', 4);
+
+-- ================================================
+-- SELECT QUERIES TO DISPLAY DATA
+-- ================================================
+SELECT * FROM employees;
+SELECT * FROM departments;
+
+-- ================================================
+-- JOIN OPERATIONS
+-- ================================================
+SELECT * FROM employees e INNER JOIN departments d ON e.dept_id = d.dept_id;
+SELECT * FROM employees e LEFT OUTER JOIN departments d ON e.dept_id = d.dept_id;
+SELECT * FROM employees e RIGHT OUTER JOIN departments d ON e.dept_id = d.dept_id;
+SELECT * FROM employees e JOIN departments d ON e.dept_id = d.dept_id;
+
+-- ================================================
+-- CREATING AND USING A VIEW
+-- ================================================
+CREATE OR REPLACE VIEW empView AS 
+SELECT emp_id, emp_name, salary FROM employees;
+
+SELECT * FROM empView;
+
+DELETE FROM empView WHERE emp_id = 6;
+
+DROP VIEW empView;
+
+-- ================================================
+-- ADDING NEW DEPARTMENT
+-- ================================================
+INSERT INTO departments (dept_name) VALUES ('Software Devleoper');
