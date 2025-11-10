@@ -1,0 +1,34 @@
+ db.createCollection("employee")
+
+ db.employee.insert({emp_id:101, name:"Sam", job:"HR", salary:100000})
+WriteResult({ "nInserted" : 1 })
+
+ db.employee.insert({emp_id:102, name:"Jack", job:"Manager", salary:200000})
+WriteResult({ "nInserted" : 1 })
+
+ db.employee.insert({emp_id:103, name:"Maxxy", job:"Developer", salary:300000})
+WriteResult({ "nInserted" : 1 })
+
+ db.employee.insert({emp_id:104, name:"Arina", job:"Tester", salary:400000})
+WriteResult({ "nInserted" : 1 })
+
+ db.employee.find().pretty()
+
+ db.employee.remove({emp_id:104})
+
+db.employee.update(
+... {emp_id:102, name:"Jack"},
+... {$set:{emp_id:102, name:"William"}}
+... )
+
+> db.employee.find().pretty()
+
+
+> db.employee.find({$or:[{emp_id:103},{name:"Maxxy"}]}).pretty()
+
+> db.employee.find({$and:[{emp_id:103},{name:"Maxxy"}]}).pretty()
+
+//save method latest
+db.employee.insert({emp_id:101, name:"sam", job:"HR", salary:100000})
+
+
