@@ -1,0 +1,83 @@
+ create database college;
+ use college;
+
+ create table Book(
+     book_id int primary key,
+     book_name varchar(50),
+     author varchar(50),
+     publisher varchar(50),
+     price decimal(10,2),
+     published_year year);
+
+     insert into Book values(1,'c programming','Abdul','techbooks',200.00,2025);
+insert into Book values(2,'DBMS concepts','Atharva','edupub',500.00,2024);
+insert into Book values(3,'operating system','Siddhant','techbooks',5000.00,2023);
+ insert into Book values(4,'java programming','Nilesh','techbooks',5050.00,2021);
+ 
+select * from Book;
+
+create table Student(
+     stud_id int primary key,
+     stud_name varchar(50),
+     age int,
+    gender varchar(10),
+    department varchar(30),
+    marks int);
+
+ insert into Student values(101,'Krushna',20,'female','computer',35);
+insert into Student values(102,'Kartik',20,'male','electrical',95);
+ insert into Student values(103,'Jadhav',20,'male','mechanical',55);
+ insert into Student values(104,'Prathmesh',20,'male','computer',75);
+
+ select * from Student;
+//inner join
+ select Student.stud_id, Student.stud_name, Student.department,
+Book.book_id, Book.book_name, Book.publisher
+from Student
+inner join Book
+on Student.department = Book.publisher;
+
+//left join
+select Student.stud_id, Student.stud_name, Student.department,
+Book.book_id, Book.book_name, Book.publisher
+from Student
+left join Book
+on Student.department = Book.publisher;
+
+//right join
+select Student.stud_id, Student.stud_name, Student.department,
+Book.book_id, Book.book_name, Book.publisher
+from Student
+right join Book
+on Student.department = Book.publisher;
+
+
+create view highMarksStudents as
+select stud_id, stud_name, department, marks
+from Student
+where marks > 75;
+
+select * from highMarksStudents;
+
+select count(*) from Student
+where marks > (select avg(marks) from Student);
+
+select stud_name, marks
+from Student
+where marks > (select avg(marks) from Student);
+
+update Student set marks = 80 where stud_id = 104;
+
+delete from Book where book_id = 2;
+
+select sum(price) as Total_Price, avg(price) as Average_Price
+from Book;
+
+
+
+
+
+
+
+
+ 
